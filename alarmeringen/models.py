@@ -3,7 +3,7 @@ from django.db import models
 
 class CapCode(models.Model):
     capcode = models.CharField(max_length=10, primary_key=True)
-    omschrijving = models.CharField(max_length=200)
+    omschrijving = models.CharField(max_length=500)
 
     def __str__(self):
         return '{} - {}'.format(self.capcode, self.omschrijving)
