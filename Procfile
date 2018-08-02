@@ -1,1 +1,1 @@
-web: gunicorn firedept.wsgi
+web: gunicorn firedept.wsgi --log-file=-

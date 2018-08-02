@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'polls.apps.PollsConfig',
     'snippets.apps.SnippetsConfig',
+    'alarmeringen.apps.AlarmeringenConfig',
     'rest_framework',
     'firedept'
 ]
@@ -125,7 +126,45 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+# Heroku
 django_heroku.settings(locals())
 
 db_from_env = dj_database_url.config(conn_max_age=500, ssl_require=True)
 DATABASES['default'].update(db_from_env)
+
+
+# Logging
+# https://stackoverflow.com/questions/32234081/logging-in-django-on-heroku-not-appearing
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
+                       'filename=%(filename)s lineno=%(lineno)s ' +
+                       'funcname=%(funcName)s %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'firedept': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
+    }
+}
