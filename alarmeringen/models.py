@@ -14,8 +14,8 @@ class CapCode(models.Model):
 
 class Alarmering(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
-    melding = models.CharField(max_length=200)
-    tekstmelding = models.CharField(max_length=200)
+    melding = models.CharField(max_length=500)
+    tekstmelding = models.CharField(max_length=500)
     dienstid = models.CharField(max_length=2)
     dienst = models.CharField(max_length=20)
     regioid = models.CharField(max_length=2)
