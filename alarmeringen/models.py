@@ -31,11 +31,11 @@ class Alarmering(models.Model):
     brandinfo = models.CharField(max_length=50, null=True, blank=True)
     grip = models.CharField(max_length=1)
     capcodes = models.ManyToManyField(
-        CapCode, null=True, blank=True, related_name='alarmeringen')
+        CapCode, blank=True, related_name='alarmeringen')
     capstring = models.CharField(max_length=200)
     details = models.CharField(max_length=200)
-    subitems = models.ManyToManyField(
-        'self', null=True, blank=True, related_name='alarmeringen')
+    parent = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, related_name='subitems')
 
     def __str__(self):
         return '{}'.format(self.id)

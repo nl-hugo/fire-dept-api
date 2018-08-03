@@ -1,17 +1,27 @@
 import logging
 from pprint import pformat
 from datetime import datetime
+from rest_framework import viewsets
 from alarmeringen.models import Alarmering, CapCode
+from alarmeringen.serializers import AlarmeringSerializer
 
 logger = logging.getLogger('firedept')
 
 
-def persistAlarmeringen(meldingen):
+class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Alarmering.objects.filter(parent=None)
+    serializer_class = AlarmeringSerializer
+
+
+def persistAlarmeringen(meldingen, parent=None):
     res = []
     if meldingen is not None:
         logger.info('Ingesting {} meldingen'.format(len(meldingen)))
         for melding in meldingen:
-            code = persistAlarmering(melding)
+            code = persistAlarmering(melding, parent)
             if code != '':
                 res.append(code)
     return res
@@ -28,7 +38,7 @@ def persistCaps(caps):
     return res
 
 
-def persistAlarmering(melding):
+def persistAlarmering(melding, parent=None):
     res = ''
     logger.debug('{}'.format(pformat(melding)))
 
@@ -39,19 +49,22 @@ def persistAlarmering(melding):
     dt = datetime.strptime('{}-{}'.format(
         melding.pop('datum'), datetime.now().year), '%d-%M-%Y')
     melding.update({'datum': datetime.strftime(dt, '%Y-%M-%d')})
+    melding.update({'parent': parent})
 
     try:
         obj, created = Alarmering.objects.get_or_create(**melding)
         if caps != '':
             obj.capcodes.add(*persistCaps(caps))
         if subs != '':
-            obj.subitems.add(*persistAlarmeringen(subs))
+            logger.info('Ingesting {} subitems'.format(len(subs)))
+            persistAlarmeringen(subs, obj)
         res = obj.id
     except Alarmering.DoesNotExist:
-        logger.warning('Does not exist: {}'.format(melding['code']))
+        logger.warning('Does not exist: {}'.format(melding['id']))
         pass
     except Exception as e:
         logger.error('Unknown error: {}'.format(e))
+
     return res
 
 
