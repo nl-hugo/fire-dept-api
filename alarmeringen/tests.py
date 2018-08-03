@@ -45,11 +45,19 @@ class AlarmeringEmptyViewSetTests(APITestCase):
         """
         response = self.client.get('/alarmeringen/', format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, [])
+        self.assertEqual(response.data['results'], [])
 
 
 class AlarmeringViewSetTests(APITestCase):
     fixtures = ['alarmeringen']
+
+    def test_index_view_with_alarmeringen(self):
+        """
+        If no alarmeringen exist, an empty list should be returned
+        """
+        response = self.client.get('/alarmeringen/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
 
     def test_index_view_with_subitems(self):
         """

@@ -127,6 +127,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+# Rest framework
+# http://www.django-rest-framework.org/api-guide/pagination/
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}
+
+
 # Heroku
 django_heroku.settings(locals())
 
@@ -136,6 +145,7 @@ DATABASES['default'].update(db_from_env)
 
 # Logging
 # https://stackoverflow.com/questions/32234081/logging-in-django-on-heroku-not-appearing
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
