@@ -1,0 +1,75 @@
+[{
+    "model": "alarmeringen.capcode",
+    "pk": "706001",
+    "fields": {
+        "omschrijving": "Monitorcode"
+    }
+}, {
+    "model": "alarmeringen.capcode",
+    "pk": "708442",
+    "fields": {
+        "omschrijving": "Kazernealarm Tolsteeg (Centrum) / Utrecht"
+    }
+}, {
+    "model": "alarmeringen.capcode",
+    "pk": "708460",
+    "fields": {
+        "omschrijving": "Kazernealarm Voordorp (Oost) / Utrecht"
+    }
+}, {
+    "model": "alarmeringen.capcode",
+    "pk": "709563",
+    "fields": {
+        "omschrijving": "???"
+    }
+}, {
+    "model": "alarmeringen.alarmering",
+    "pk": "13156169",
+    "fields": {
+        "melding": "P 2 Buitenbrand Houtenseweg - N409 10,3 Nieuwegein 094631",
+        "tekstmelding": "P 2 Buitenbrand Houtenseweg - N409 10,3 Nieuwegein 094631",
+        "dienstid": "2",
+        "dienst": "Brandweer",
+        "regioid": "18",
+        "regio": "Utrecht",
+        "plaats": "Nieuwegein",
+        "postcode": "N409::10.3",
+        "straat": "",
+        "datum": "2018-08-03",
+        "tijd": "01:57:00",
+        "lat": "52.04578",
+        "lon": "5.12161",
+        "prio1": "0",
+        "brandinfo": "buitenbrand",
+        "grip": "0",
+        "capstring": "706001: Monitorcode\n708442: Kazernealarm Tolsteeg (Centrum) / Utrecht\n709563: ???",
+        "details": "Type: buitenbrand",
+        "parent": null,
+        "capcodes": ["706001", "708442", "709563"]
+    }
+}, {
+    "model": "alarmeringen.alarmering",
+    "pk": "13156191",
+    "fields": {
+        "melding": "P 2 Buitenbrand Houtenseweg - N409 10,3 Nieuwegein 094863",
+        "tekstmelding": "P 2 Buitenbrand Houtenseweg - N409 10,3 Nieuwegein 094863",
+        "dienstid": "2",
+        "dienst": "Brandweer",
+        "regioid": "18",
+        "regio": "Utrecht",
+        "plaats": "Nieuwegein",
+        "postcode": "N409::10.3",
+        "straat": "",
+        "datum": "2018-08-03",
+        "tijd": "02:10:00",
+        "lat": "52.04578",
+        "lon": "5.12161",
+        "prio1": "0",
+        "brandinfo": "buitenbrand",
+        "grip": "0",
+        "capstring": "706001: Monitorcode\n708460: Kazernealarm Voordorp (Oost) / Utrecht\n709563: ???",
+        "details": "Type: buitenbrand",
+        "parent": "13156169",
+        "capcodes": ["706001", "708460", "709563"]
+    }
+}]

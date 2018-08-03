@@ -1,0 +1,102 @@
+{
+    "meldingen": [{
+        "id": "13148251",
+        "melding": "P 2 Dier-in-nood Winkeldijk Abcoude 098131",
+        "tekstmelding": "Brandweer met gepaste spoed naar Winkeldijk, Abcoude, voor een hulpverlening",
+        "dienstid": "2",
+        "regioid": "18",
+        "dienst": "Brandweer",
+        "regio": "Utrecht",
+        "plaats": "1391HK Abcoude",
+        "postcode": "1391HK",
+        "straat": "Winkeldijk",
+        "datum": "01-08",
+        "tijd": "07:44 - 08:19",
+        "lat": "52.26570",
+        "lon": "4.97699",
+        "prio1": "0",
+        "brandinfo": "hulpverlening",
+        "grip": "0",
+        "capcodes": [{
+            "capcode": "706001",
+            "omschrijving": "Monitorcode"
+        }, {
+            "capcode": "706002",
+            "omschrijving": "Commandant \/ Abcoude"
+        }, {
+            "capcode": "706004",
+            "omschrijving": "Blusgroep \/ Abcoude"
+        }, {
+            "capcode": "709564",
+            "omschrijving": "???"
+        }],
+        "capstring": "706001: Monitorcode\n706002: Commandant \/ Abcoude\n706004: Blusgroep \/ Abcoude\n709564: ???",
+        "details": "Type: hulpverlening",
+        "subitems": [{
+            "id": "13148387",
+            "melding": "P 2 Dier-in-nood Winkeldijk Abcoude 091571",
+            "tekstmelding": "Brandweer met gepaste spoed naar Winkeldijk, Abcoude, voor een hulpverlening",
+            "dienstid": "2",
+            "regioid": "18",
+            "dienst": "Brandweer",
+            "regio": "Utrecht",
+            "plaats": "1391HK Abcoude",
+            "postcode": "1391HK",
+            "straat": "Winkeldijk",
+            "datum": "01-08",
+            "tijd": "08:25",
+            "lat": "52.26570",
+            "lon": "4.97699",
+            "prio1": "0",
+            "brandinfo": "hulpverlening",
+            "grip": "0",
+            "capcodes": [{
+                "capcode": "706001",
+                "omschrijving": "Monitorcode"
+            }, {
+                "capcode": "708144",
+                "omschrijving": "Commando Wilnis \/ De Ronde Venen"
+            }, {
+                "capcode": "708156",
+                "omschrijving": "Brugwachters \/ De Ronde Venen"
+            }, {
+                "capcode": "709564",
+                "omschrijving": "???"
+            }],
+            "capstring": "706001: Monitorcode\n708144: Commando Wilnis \/ De Ronde Venen\n708156: Brugwachters \/ De Ronde Venen\n709564: ???",
+            "details": "Type: hulpverlening"
+        }]
+    }, {
+        "id": "13148246",
+        "melding": "Graag contact RAC",
+        "tekstmelding": "Graag contact RAC",
+        "dienstid": "2",
+        "regioid": "18",
+        "dienst": "Brandweer",
+        "regio": "Utrecht",
+        "plaats": "",
+        "postcode": null,
+        "straat": "",
+        "datum": "01-08",
+        "tijd": "07:41",
+        "lat": null,
+        "lon": null,
+        "prio1": "0",
+        "brandinfo": "overigen",
+        "grip": "0",
+        "capcodes": [{
+            "capcode": "706001",
+            "omschrijving": "Monitorcode"
+        }, {
+            "capcode": "706003",
+            "omschrijving": "Commando \/ Abcoude"
+        }, {
+            "capcode": "709564",
+            "omschrijving": "???"
+        }],
+        "capstring": "706001: Monitorcode\n706003: Commando \/ Abcoude\n709564: ???",
+        "details": "Type: overigen"
+    }],
+    "high_id": "13152732",
+    "prev_high_id": -1
+}

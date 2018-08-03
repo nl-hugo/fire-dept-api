@@ -47,8 +47,8 @@ def persistAlarmering(melding, parent=None):
 
     # format date DD-MM to YYYY-MM-DD
     dt = datetime.strptime('{}-{}'.format(
-        melding.pop('datum'), datetime.now().year), '%d-%M-%Y')
-    melding.update({'datum': datetime.strftime(dt, '%Y-%M-%d')})
+        melding.pop('datum'), datetime.now().year), '%d-%m-%Y')
+    melding.update({'datum': datetime.strftime(dt, '%Y-%m-%d')})
     melding.update({'parent': parent})
 
     try:
