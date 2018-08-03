@@ -32,7 +32,7 @@ class Alarmering(models.Model):
     grip = models.CharField(max_length=1)
     capcodes = models.ManyToManyField(
         CapCode, blank=True, related_name='alarmeringen')
-    capstring = models.CharField(max_length=500)
+    capstring = models.CharField(max_length=1000)
     details = models.CharField(max_length=200)
     parent = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, related_name='subitems')
