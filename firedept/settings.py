@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'snippets.apps.SnippetsConfig',
     'alarmeringen.apps.AlarmeringenConfig',
     'rest_framework',
-    'firedept'
+    'corsheaders',
+    'firedept',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'firedept.urls'
@@ -145,7 +147,6 @@ DATABASES['default'].update(db_from_env)
 
 # Logging
 # https://stackoverflow.com/questions/32234081/logging-in-django-on-heroku-not-appearing
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -178,3 +179,11 @@ LOGGING = {
         }
     }
 }
+
+
+# CORS headers
+# https://github.com/ottoyiu/django-cors-headers/
+CORS_ORIGIN_WHITELIST = (
+    'fire-dept.herokuapp.com',
+    'localhost:3000',
+)

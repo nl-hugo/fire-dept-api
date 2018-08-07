@@ -10,7 +10,7 @@ router.registry.extend(alarmeringen.registry)
 router.registry.extend(snippets.registry)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'^api/', include(router.urls)),
     url(r'^polls/', include('polls.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
