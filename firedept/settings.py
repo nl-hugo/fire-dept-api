@@ -187,3 +187,8 @@ CORS_ORIGIN_WHITELIST = (
     'fire-dept.herokuapp.com',
     'localhost:3000',
 )
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'OPTIONS',
+)
