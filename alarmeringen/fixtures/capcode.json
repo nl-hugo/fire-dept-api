@@ -1,0 +1,7 @@
+[{
+    "model": "alarmeringen.capcode",
+    "pk": "707001",
+    "fields": {
+        "omschrijving": "Algemeen"
+    }
+}]

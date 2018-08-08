@@ -39,7 +39,7 @@ def scrape(params, callback):
 
 
 def persist_results(res):
-    from alarmeringen.views import persistAlarmeringen
+    from alarmeringen.persist import persistAlarmeringen
 
     meldingen = res['meldingen']
     persistAlarmeringen(meldingen)

@@ -1,0 +1,7 @@
+[{
+    "model": "alarmeringen.regio",
+    "pk": "18",
+    "fields": {
+        "omschrijving": "Utrecht"
+    }
+}]
