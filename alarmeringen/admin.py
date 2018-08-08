@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Alarmering
+from .models import Alarmering, Regio
+
+
+class RegioAdmin(admin.ModelAdmin):
+    model = Regio
+
+
+admin.site.register(Regio, RegioAdmin)
 
 
 class CapCodesInline(admin.TabularInline):
@@ -17,14 +24,14 @@ class AlarmeringAdmin(admin.ModelAdmin):
                                          'parent']}),
         ('Dienst', {'fields': ['dienstid', 'dienst', 'prio1', 'grip',
                                'brandinfo', 'details'], 'classes': ['collapse']}),
-        ('Locatie', {'fields': ['regioid', 'regio', 'plaats', 'postcode',
+        ('Locatie', {'fields': ['regio', 'plaats', 'postcode',
                                 'straat', 'lat', 'lon'], 'classes': ['collapse']}),
     ]
     inlines = [CapCodesInline, ]
     list_display = ('id', 'datum', 'tijd', 'melding', 'regio', 'plaats',
                     'parent')
-    list_filter = ['dienst', 'regio']
-    search_fields = ['melding', 'regio', 'plaats']
+    list_filter = ['dienst', ]
+    search_fields = ['melding', 'plaats', ]
 
 
 admin.site.register(Alarmering, AlarmeringAdmin)

@@ -2,8 +2,10 @@ import logging
 from pprint import pformat
 from datetime import datetime
 from rest_framework import viewsets
-from alarmeringen.models import Alarmering, CapCode
-from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer)
+
+from alarmeringen.models import Alarmering, CapCode, Regio
+from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer,
+                                      RegioSerializer)
 
 logger = logging.getLogger('firedept')
 
@@ -22,6 +24,15 @@ class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = CapCode.objects.all()
     serializer_class = CapCodeSerializer
+    pagination_class = None
+
+
+class RegioViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Regio.objects.all()
+    serializer_class = RegioSerializer
     pagination_class = None
 
 
@@ -53,6 +64,14 @@ def persistAlarmering(melding, parent=None):
 
     caps = melding.pop('capcodes', '')
     subs = melding.pop('subitems', '')
+
+    regio_id = melding.pop('regioid', '')
+    regio_oms = melding.pop('regio', '')
+
+    regio = None
+    if regio_id != '':
+        regio = persistRegio(regio_id, regio_oms)
+    melding.update({'regio': regio})
 
     # format date DD-MM to YYYY-MM-DD
     dt = datetime.strptime('{}-{}'.format(
@@ -89,4 +108,17 @@ def persistCap(cap):
         pass
     except Exception as e:
         logger.error('Unknown error: {}'.format(e))
+    return res
+
+
+def persistRegio(regio_id, regio_oms):
+    res = None
+
+    try:
+        res, created = Regio.objects.update_or_create(
+            id=regio_id,
+            defaults={'omschrijving': regio_oms})
+        logger.debug('Regio created {}'.format(res))
+    except Exception as e:
+        logger.error('Unknown error {}: {}'.format(regio_id, e))
     return res

@@ -7,6 +7,7 @@ from alarmeringen import views
 router = DefaultRouter()
 router.register(r'alarmeringen', views.AlarmeringViewSet)
 router.register(r'capcodes', views.CapCodeViewSet)
+router.register(r'regios', views.RegioViewSet)
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.

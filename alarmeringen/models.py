@@ -12,14 +12,25 @@ class CapCode(models.Model):
         ordering = ['capcode']
 
 
+class Regio(models.Model):
+    id = models.CharField(max_length=2, primary_key=True)
+    omschrijving = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.omschrijving
+
+    class Meta:
+        ordering = ['id']
+
+
 class Alarmering(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
     melding = models.CharField(max_length=500)
     tekstmelding = models.CharField(max_length=500)
     dienstid = models.CharField(max_length=2)
     dienst = models.CharField(max_length=20)
-    regioid = models.CharField(max_length=2)
-    regio = models.CharField(max_length=200)
+    regio = models.ForeignKey(
+        Regio, on_delete=models.CASCADE, null=True, related_name='alarmeringen')
     plaats = models.CharField(max_length=200, null=True, blank=True)
     postcode = models.CharField(max_length=20, null=True, blank=True)
     straat = models.CharField(max_length=200, null=True, blank=True)

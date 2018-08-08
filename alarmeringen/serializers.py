@@ -1,12 +1,18 @@
 from rest_framework import serializers
 
-from alarmeringen.models import Alarmering, CapCode
+from alarmeringen.models import Alarmering, CapCode, Regio
 
 
 class CapCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CapCode
         fields = ('capcode', 'omschrijving')
+
+
+class RegioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Regio
+        fields = ('id', 'omschrijving')
 
 
 class RecursiveField(serializers.Serializer):
@@ -17,12 +23,13 @@ class RecursiveField(serializers.Serializer):
 
 class AlarmeringSerializer(serializers.ModelSerializer):
     capcodes = CapCodeSerializer(many=True, read_only=True, )
+    regio = RegioSerializer(read_only=True, )
     subitems = RecursiveField(many=True, read_only=True, )
 
     class Meta:
         model = Alarmering
         depth = 1
         fields = ('id', 'datum', 'tijd', 'melding', 'tekstmelding', 'dienstid',
-                  'dienst', 'prio1', 'grip', 'brandinfo', 'details', 'regioid',
-                  'regio', 'plaats', 'postcode', 'straat', 'lat', 'lon',
-                  'capcodes', 'subitems')
+                  'dienst', 'prio1', 'grip', 'brandinfo', 'details', 'regio',
+                  'plaats', 'postcode', 'straat', 'lat', 'lon', 'capcodes',
+                  'subitems')
