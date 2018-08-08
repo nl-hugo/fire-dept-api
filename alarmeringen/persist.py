@@ -3,7 +3,7 @@ from pprint import pformat
 from datetime import datetime
 from django.db import IntegrityError
 
-from alarmeringen.models import Alarmering, CapCode, Regio
+from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
 
 
 logger = logging.getLogger('firedept')
@@ -34,6 +34,14 @@ def persistAlarmering(melding, parent=None):
     if regio_id != '':
         regio = persistRegio(regio_id, regio_oms)
     melding.update({'regio': regio})
+
+    dienst_id = melding.pop('dienstid', '')
+    dienst_oms = melding.pop('dienst', '')
+
+    dienst = None
+    if dienst_id != '':
+        dienst = persistDienst(dienst_id, dienst_oms)
+    melding.update({'dienst': dienst})
 
     # format date DD-MM to YYYY-MM-DD
     dt = datetime.strptime('{}-{}'.format(
@@ -82,6 +90,19 @@ def persistCap(cap):
         logger.warning('Already exists: {}'.format(pk))
     except Exception as e:
         logger.error('Unknown error {}: {}'.format(pk, e))
+    return res
+
+
+def persistDienst(dienst_id, dienst_oms):
+    res = None
+
+    try:
+        res, created = Dienst.objects.update_or_create(
+            id=dienst_id,
+            defaults={'omschrijving': dienst_oms})
+        logger.debug('Regio created {}'.format(res))
+    except Exception as e:
+        logger.error('Unknown error {}: {}'.format(dienst_id, e))
     return res
 
 

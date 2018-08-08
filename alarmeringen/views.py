@@ -1,9 +1,9 @@
 import logging
 from rest_framework import viewsets
 
-from alarmeringen.models import Alarmering, CapCode, Regio
+from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
 from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer,
-                                      RegioSerializer)
+                                      DienstSerializer, RegioSerializer)
 
 logger = logging.getLogger('firedept')
 
@@ -22,6 +22,15 @@ class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = CapCode.objects.all()
     serializer_class = CapCodeSerializer
+    pagination_class = None
+
+
+class DienstViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Dienst.objects.all()
+    serializer_class = DienstSerializer
     pagination_class = None
 
 

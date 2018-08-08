@@ -5,14 +5,32 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from alarmeringen.models import Alarmering, Regio, CapCode
-from alarmeringen.persist import persistRegio, persistCaps, persistAlarmeringen
+from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
+from alarmeringen.persist import (persistAlarmeringen, persistCaps,
+                                  persistDienst, persistRegio)
 
 
-# TODO: migrate dienst
 # TODO: migrate type (incl FA icon veld)
-# TODO: check model integrity
-# Add / update multiple objects with same id
+
+class PersistDienstTests(TestCase):
+    fixtures = ['dienst']
+
+    def test_persist_dienst(self):
+        """
+        Diensten should be persisted correctly
+        """
+        dienst = persistDienst('1', 'new')
+        self.assertEqual(Dienst.objects.count(), 2)
+        self.assertEqual(Dienst.objects.get(id='1'), dienst)
+
+    def test_update_dienst(self):
+        """
+        Diensten should be updated correctly
+        """
+        persistDienst('2', 'updated')
+        self.assertEqual(Dienst.objects.count(), 1)
+        self.assertEqual(Dienst.objects.get(id='2').omschrijving, 'updated')
+
 
 class PersistRegioTests(TestCase):
     fixtures = ['regio']

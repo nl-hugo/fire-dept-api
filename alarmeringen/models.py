@@ -1,6 +1,17 @@
 from django.db import models
 
 
+class Dienst(models.Model):
+    id = models.CharField(max_length=2, primary_key=True)
+    omschrijving = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.omschrijving
+
+    class Meta:
+        ordering = ['id']
+
+
 class CapCode(models.Model):
     capcode = models.CharField(max_length=10, primary_key=True)
     omschrijving = models.CharField(max_length=500)
@@ -27,8 +38,10 @@ class Alarmering(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
     melding = models.CharField(max_length=500)
     tekstmelding = models.CharField(max_length=500)
-    dienstid = models.CharField(max_length=2)
-    dienst = models.CharField(max_length=20)
+#    dienstid = models.CharField(max_length=2)
+#    dienst = models.CharField(max_length=20)
+    dienst = models.ForeignKey(
+        Dienst, on_delete=models.CASCADE, null=True, related_name='alarmeringen')
     regio = models.ForeignKey(
         Regio, on_delete=models.CASCADE, null=True, related_name='alarmeringen')
     plaats = models.CharField(max_length=200, null=True, blank=True)

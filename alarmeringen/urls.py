@@ -6,6 +6,7 @@ from alarmeringen import views
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'alarmeringen', views.AlarmeringViewSet)
+router.register(r'diensten', views.DienstViewSet)
 router.register(r'capcodes', views.CapCodeViewSet)
 router.register(r'regios', views.RegioViewSet)
 

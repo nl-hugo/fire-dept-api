@@ -1,0 +1,7 @@
+[{
+    "model": "alarmeringen.dienst",
+    "pk": "2",
+    "fields": {
+        "omschrijving": "Brandweer"
+    }
+}]
