@@ -3,7 +3,7 @@ from pprint import pformat
 from datetime import datetime
 from rest_framework import viewsets
 from alarmeringen.models import Alarmering, CapCode
-from alarmeringen.serializers import AlarmeringSerializer
+from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer)
 
 logger = logging.getLogger('firedept')
 
@@ -14,6 +14,15 @@ class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Alarmering.objects.filter(parent=None)
     serializer_class = AlarmeringSerializer
+
+
+class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = CapCode.objects.all()
+    serializer_class = CapCodeSerializer
+    pagination_class = None
 
 
 def persistAlarmeringen(meldingen, parent=None):
