@@ -8,8 +8,9 @@ def link_regios(apps, schema_editor):
     Alarmering = apps.get_model('alarmeringen', 'Alarmering')
     Regio = apps.get_model('alarmeringen', 'Regio')
     for alarmering in Alarmering.objects.all():
-        regio, created = Regio.objects.get_or_create(
-            id=alarmering.regioid, omschrijving=alarmering.regio)
+        regio, created = Regio.objects.update_or_create(
+            id=alarmering.regioid,
+            defaults={'omschrijving': alarmering.regio})
         alarmering.regio_link = regio
         alarmering.save()
 
