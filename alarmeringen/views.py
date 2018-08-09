@@ -1,5 +1,6 @@
 import logging
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 
 from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
 from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer,
@@ -14,6 +15,8 @@ class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Alarmering.objects.filter(parent=None)
     serializer_class = AlarmeringSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('regio', 'dienst', 'capcodes', 'prio1', 'brandinfo', )
 
 
 class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):

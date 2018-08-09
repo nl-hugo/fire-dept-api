@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'snippets.apps.SnippetsConfig',
     'alarmeringen.apps.AlarmeringenConfig',
     'rest_framework',
+    'django_filters',
     'corsheaders',
     'firedept',
 ]
