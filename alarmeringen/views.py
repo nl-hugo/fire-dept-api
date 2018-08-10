@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime, timedelta
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -11,9 +12,12 @@ logger = logging.getLogger('firedept')
 
 class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    This viewset automatically provides `list` and `detail` actions.
+    This viewset automatically provides `list` and `detail` actions. 
+    Returns objects in the last 365 days.
     """
-    queryset = Alarmering.objects.filter(parent=None)
+    queryset = Alarmering.objects.filter(
+        parent=None,
+        datum__gte=datetime.now() - timedelta(days=365))
     serializer_class = AlarmeringSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('regio', 'dienst', 'capcodes', 'prio1', 'brandinfo', )
