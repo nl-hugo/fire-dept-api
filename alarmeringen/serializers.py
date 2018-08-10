@@ -4,9 +4,14 @@ from alarmeringen.models import Alarmering, CapCode, Regio, Dienst
 
 
 class CapCodeSerializer(serializers.ModelSerializer):
+    tekst = serializers.SerializerMethodField('get_str')
+
+    def get_str(self, obj):
+        return str(obj)
+
     class Meta:
         model = CapCode
-        fields = ('capcode', 'omschrijving')
+        fields = ('capcode', 'omschrijving', 'tekst')
 
 
 class RegioSerializer(serializers.ModelSerializer):
