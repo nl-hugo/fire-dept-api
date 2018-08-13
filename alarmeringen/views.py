@@ -1,11 +1,14 @@
 import logging
 from datetime import datetime, timedelta
 from rest_framework import viewsets
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
 from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
 from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer,
-                                      DienstSerializer, RegioSerializer)
+                                      DienstSerializer, RegioSerializer,
+                                      PlaatsSerializer)
+#                                      )
 
 logger = logging.getLogger('firedept')
 
@@ -20,7 +23,8 @@ class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
         datum__gte=datetime.now() - timedelta(days=365))
     serializer_class = AlarmeringSerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('regio', 'dienst', 'capcodes', 'prio1', 'brandinfo', )
+    filter_fields = ('regio', 'dienst', 'capcodes', 'prio1', 'brandinfo',
+                     'plaats')
 
 
 class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -48,3 +52,14 @@ class RegioViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Regio.objects.all()
     serializer_class = RegioSerializer
     pagination_class = None
+
+
+class PlaatsViewSet(viewsets.ViewSet):
+    """
+    Lists plaatsen.
+    """
+    def list(self, request):
+        queryset = Alarmering.objects.order_by().values('plaats').distinct()
+        logger.info(request)
+        serializer = PlaatsSerializer(queryset, many=True)
+        return Response(serializer.data)

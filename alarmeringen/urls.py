@@ -9,6 +9,7 @@ router.register(r'alarmeringen', views.AlarmeringViewSet)
 router.register(r'diensten', views.DienstViewSet)
 router.register(r'capcodes', views.CapCodeViewSet)
 router.register(r'regios', views.RegioViewSet)
+router.register(r'plaatsen', views.PlaatsViewSet, base_name='plaats')
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.

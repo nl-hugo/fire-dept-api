@@ -38,8 +38,6 @@ class Alarmering(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
     melding = models.CharField(max_length=500)
     tekstmelding = models.CharField(max_length=500)
-#    dienstid = models.CharField(max_length=2)
-#    dienst = models.CharField(max_length=20)
     dienst = models.ForeignKey(
         Dienst, on_delete=models.CASCADE, null=True, related_name='alarmeringen')
     regio = models.ForeignKey(
@@ -63,6 +61,14 @@ class Alarmering(models.Model):
 
     def __str__(self):
         return '{}'.format(self.id)
+
+    def set_plaats(self):
+        if self.postcode is not None:
+            self.plaats = self.plaats.replace(self.postcode, '').lstrip()
+
+    def save(self, *args, **kwargs):
+        self.set_plaats()
+        super(Alarmering, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-id']

@@ -1,6 +1,9 @@
+import logging
 from rest_framework import serializers
 
 from alarmeringen.models import Alarmering, CapCode, Regio, Dienst
+
+logger = logging.getLogger('firedept')
 
 
 class CapCodeSerializer(serializers.ModelSerializer):
@@ -18,6 +21,11 @@ class RegioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Regio
         fields = ('id', 'omschrijving')
+
+
+class PlaatsSerializer(serializers.BaseSerializer):
+   def to_representation(self, obj):
+       return obj
 
 
 class DienstSerializer(serializers.ModelSerializer):

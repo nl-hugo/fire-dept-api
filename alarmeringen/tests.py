@@ -9,9 +9,6 @@ from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
 from alarmeringen.persist import (persistAlarmeringen, persistCaps,
                                   persistDienst, persistRegio)
 
-
-# TODO: migrate type (incl FA icon veld)
-
 class PersistDienstTests(TestCase):
     fixtures = ['dienst']
 
@@ -125,6 +122,7 @@ class PersistAlarmeringenTests(TestCase):
 
         s = Alarmering.objects.get(pk='13148251')
         self.assertEqual(s.brandinfo, 'hulpverlening')
+        self.assertEqual(s.plaats, 'Abcoude')
         self.assertEqual(datetime.strftime(s.datum, '%Y-%m-%d'), '2018-08-01')
         self.assertEqual(s.capcodes.count(), 4)
 
