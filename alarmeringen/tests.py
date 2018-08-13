@@ -26,7 +26,7 @@ class PersistDienstTests(TestCase):
         """
         persistDienst('2', 'updated')
         self.assertEqual(Dienst.objects.count(), 1)
-        self.assertEqual(Dienst.objects.get(id='2').omschrijving, 'updated')
+        self.assertEqual(Dienst.objects.get(id='2').omschrijving, 'Brandweer')
 
 
 class PersistRegioTests(TestCase):
@@ -46,7 +46,7 @@ class PersistRegioTests(TestCase):
         """
         persistRegio('18', 'updated')
         self.assertEqual(Regio.objects.count(), 1)
-        self.assertEqual(Regio.objects.get(id='18').omschrijving, 'updated')
+        self.assertEqual(Regio.objects.get(id='18').omschrijving, 'Utrecht')
 
 
 class PersistCapsTests(TestCase):
@@ -83,7 +83,7 @@ class PersistCapsTests(TestCase):
         }]
         persistCaps(caps)
         self.assertEqual(CapCode.objects.count(), 1)
-        self.assertEqual(CapCode.objects.first().omschrijving, 'Monitorcode')
+        self.assertEqual(CapCode.objects.first().omschrijving, 'Algemeen')
 
 
 class PersistAlarmeringenTests(TestCase):

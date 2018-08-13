@@ -82,7 +82,7 @@ def persistCap(cap):
 
     try:
         pk = cap.pop('capcode', '')
-        obj, created = CapCode.objects.update_or_create(pk=pk, defaults=cap)
+        obj, created = CapCode.objects.get_or_create(pk=pk, defaults=cap)
         logger.debug('Cap code {} {}'.format(
             obj, 'created' if created else 'updated'))
         res = obj.capcode
@@ -97,7 +97,7 @@ def persistDienst(dienst_id, dienst_oms):
     res = None
 
     try:
-        res, created = Dienst.objects.update_or_create(
+        res, created = Dienst.objects.get_or_create(
             id=dienst_id,
             defaults={'omschrijving': dienst_oms})
         logger.debug('Regio created {}'.format(res))
@@ -110,7 +110,7 @@ def persistRegio(regio_id, regio_oms):
     res = None
 
     try:
-        res, created = Regio.objects.update_or_create(
+        res, created = Regio.objects.get_or_create(
             id=regio_id,
             defaults={'omschrijving': regio_oms})
         logger.debug('Regio created {}'.format(res))
