@@ -59,7 +59,7 @@ class PlaatsViewSet(viewsets.ViewSet):
     Lists plaatsen.
     """
     def list(self, request):
-        queryset = Alarmering.objects.order_by().values('plaats').distinct()
+        queryset = Alarmering.objects.order_by('plaats').values('plaats').distinct()
         logger.info(request)
         serializer = PlaatsSerializer(queryset, many=True)
         return Response(serializer.data)
