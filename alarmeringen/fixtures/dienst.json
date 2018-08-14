@@ -4,4 +4,10 @@
     "fields": {
         "omschrijving": "Brandweer"
     }
+}, {
+    "model": "alarmeringen.dienst",
+    "pk": "99",
+    "fields": {
+        "omschrijving": "I got nothring"
+    }
 }]

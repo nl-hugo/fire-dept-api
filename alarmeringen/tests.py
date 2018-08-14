@@ -17,7 +17,7 @@ class PersistDienstTests(TestCase):
         Diensten should be persisted correctly
         """
         dienst = persistDienst('1', 'new')
-        self.assertEqual(Dienst.objects.count(), 2)
+        self.assertEqual(Dienst.objects.count(), 3)
         self.assertEqual(Dienst.objects.get(id='1'), dienst)
 
     def test_update_dienst(self):
@@ -25,7 +25,7 @@ class PersistDienstTests(TestCase):
         Diensten should be updated correctly
         """
         persistDienst('2', 'updated')
-        self.assertEqual(Dienst.objects.count(), 1)
+        self.assertEqual(Dienst.objects.count(), 2)
         self.assertEqual(Dienst.objects.get(id='2').omschrijving, 'Brandweer')
 
 
@@ -37,7 +37,7 @@ class PersistRegioTests(TestCase):
         Regio's should be persisted correctly
         """
         regio = persistRegio('1', 'new')
-        self.assertEqual(Regio.objects.count(), 2)
+        self.assertEqual(Regio.objects.count(), 3)
         self.assertEqual(Regio.objects.get(id='1'), regio)
 
     def test_update_regio(self):
@@ -45,7 +45,7 @@ class PersistRegioTests(TestCase):
         Regio's should be updated correctly
         """
         persistRegio('18', 'updated')
-        self.assertEqual(Regio.objects.count(), 1)
+        self.assertEqual(Regio.objects.count(), 2)
         self.assertEqual(Regio.objects.get(id='18').omschrijving, 'Utrecht')
 
 
@@ -141,6 +141,87 @@ class PersistAlarmeringenTests(TestCase):
         self.assertEqual(c.subitems.count(), 0)
 
 
+class DienstViewSetTests(APITestCase):
+    fixtures = ['alarmeringen', 'regio', 'dienst']
+
+    def test_view_with_alarmeringen(self):
+        """
+        View should return diensten with alarmeringen only
+        """
+        response = self.client.get('/diensten/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_view_detail_with_alarmeringen(self):
+        """
+        View should return the correct description
+        """
+        response = self.client.get('/diensten/2/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['omschrijving'], 'Brandweer')
+
+    def test_view_detail_with_no_alarmeringen(self):
+        """
+        Diensten without alarmeringen should not be returned
+        """
+        response = self.client.get('/diensten/99/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class RegioViewSetTests(APITestCase):
+    fixtures = ['alarmeringen', 'regio', 'dienst']
+
+    def test_view_with_alarmeringen(self):
+        """
+        View should return regios with alarmeringen only
+        """
+        response = self.client.get('/regios/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_view_detail_with_alarmeringen(self):
+        """
+        View should return the correct description
+        """
+        response = self.client.get('/regios/18/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['omschrijving'], 'Utrecht')
+
+    def test_view_detail_with_no_alarmeringen(self):
+        """
+        Regios without alarmeringen should not be returned
+        """
+        response = self.client.get('/regios/99/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class CapCodeViewSetTests(APITestCase):
+    fixtures = ['alarmeringen', 'regio', 'dienst']
+
+    def test_view_with_alarmeringen(self):
+        """
+        View should return capcodes with alarmeringen only
+        """
+        response = self.client.get('/capcodes/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 4)
+
+    def test_view_detail_with_alarmeringen(self):
+        """
+        View should return the correct description
+        """
+        response = self.client.get('/capcodes/706001/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['omschrijving'], 'Monitorcode')
+
+    def test_view_detail_with_no_alarmeringen(self):
+        """
+        Capcodes without alarmeringen should not be returned
+        """
+        response = self.client.get('/capcodes/1/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
 class AlarmeringEmptyViewSetTests(APITestCase):
 
     def test_index_view_with_no_alarmeringen(self):
@@ -151,46 +232,46 @@ class AlarmeringEmptyViewSetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['results'], [])
 
+        
+class AlarmeringViewSetTests(APITestCase):
+    fixtures = ['alarmeringen', 'regio', 'dienst']
 
-#class AlarmeringViewSetTests(APITestCase):
-#    fixtures = ['alarmeringen']
-#
-#    def test_index_view_with_alarmeringen(self):
-#        """
-#        If no alarmeringen exist, an empty list should be returned
-#        """
-#        response = self.client.get('/alarmeringen/', format='json')
-#        self.assertEqual(response.status_code, status.HTTP_200_OK)
-#        self.assertEqual(len(response.data['results']), 1)
-#
-#    def test_index_view_with_subitems(self):
-#        """
-#        Alarmeringen should be displayed with their subitems
-#        """
-#        response = self.client.get('/alarmeringen/13156169/', format='json')
-#        alarmering = json.loads(response.content)
-#        self.assertEqual(response.status_code, status.HTTP_200_OK)
-#        self.assertEqual(len(alarmering['subitems']), 1)
-#
-#    def test_index_view_with_no_subitems(self):
-#        """
-#        Alarmeringen with a parent should not return a result
-#        """
-#        response = self.client.get('/alarmeringen/13156191/', format='json')
-#        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-#
-#    def test_datum(self):
-#        """
-#        Date fields should be formatted correctly
-#        """
-#        response = self.client.get('/alarmeringen/13156169/', format='json')
-#        s = json.loads(response.content)
-#        self.assertEqual(s['datum'], '2018-08-03')
-#
-#    def test_capcodes(self):
-#        """
-#        Cap codes should be listed correctly
-#        """
-#        response = self.client.get('/alarmeringen/13156169/', format='json')
-#        s = json.loads(response.content)
-#        self.assertEqual(len(s['capcodes']), 3)
+    def test_index_view_with_alarmeringen(self):
+        """
+        If no alarmeringen exist, an empty list should be returned
+        """
+        response = self.client.get('/alarmeringen/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+
+    def test_index_view_with_subitems(self):
+        """
+        Alarmeringen should be displayed with their subitems
+        """
+        response = self.client.get('/alarmeringen/13156169/', format='json')
+        alarmering = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(alarmering['subitems']), 1)
+
+    def test_index_view_with_no_subitems(self):
+        """
+        Alarmeringen with a parent should not return a result
+        """
+        response = self.client.get('/alarmeringen/13156191/', format='json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_datum(self):
+        """
+        Date fields should be formatted correctly
+        """
+        response = self.client.get('/alarmeringen/13156169/', format='json')
+        s = json.loads(response.content)
+        self.assertEqual(s['datum'], '2018-08-03')
+
+    def test_capcodes(self):
+        """
+        Cap codes should be listed correctly
+        """
+        response = self.client.get('/alarmeringen/13156169/', format='json')
+        s = json.loads(response.content)
+        self.assertEqual(len(s['capcodes']), 3)

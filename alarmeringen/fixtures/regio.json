@@ -4,4 +4,10 @@
     "fields": {
         "omschrijving": "Utrecht"
     }
+}, {
+    "model": "alarmeringen.regio",
+    "pk": "99",
+    "fields": {
+        "omschrijving": "I got nothing"
+    }
 }]
