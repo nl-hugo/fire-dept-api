@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
 from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
+from alarmeringen.filters import AlarmeringFilter
 from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer,
                                       DienstSerializer, RegioSerializer,
                                       PlaatsSerializer)
-#                                      )
 
 logger = logging.getLogger('firedept')
 
@@ -23,8 +23,7 @@ class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
         datum__gte=datetime.now() - timedelta(days=365))
     serializer_class = AlarmeringSerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('regio', 'dienst', 'capcodes', 'prio1', 'brandinfo',
-                     'plaats')
+    filter_class = AlarmeringFilter
 
 
 class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):
