@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timedelta
 from rest_framework import viewsets
 from rest_framework.response import Response
+from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 
 from alarmeringen.models import Alarmering, CapCode, Dienst, Regio
@@ -30,7 +31,8 @@ class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
-    queryset = CapCode.objects.all()
+    queryset = CapCode.objects.annotate(num=Count('alarmeringen')).filter(
+        num__gt=0)
     serializer_class = CapCodeSerializer
     pagination_class = None
 
@@ -39,7 +41,8 @@ class DienstViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
-    queryset = Dienst.objects.all()
+    queryset = Dienst.objects.annotate(num=Count('alarmeringen')).filter(
+        num__gt=0)
     serializer_class = DienstSerializer
     pagination_class = None
 
@@ -48,7 +51,8 @@ class RegioViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
-    queryset = Regio.objects.all()
+    queryset = Regio.objects.annotate(num=Count('alarmeringen')).filter(
+        num__gt=0)
     serializer_class = RegioSerializer
     pagination_class = None
 
@@ -58,7 +62,13 @@ class PlaatsViewSet(viewsets.ViewSet):
     Lists plaatsen.
     """
     def list(self, request):
-        queryset = Alarmering.objects.order_by('plaats').values('plaats').distinct()
+        queryset = Alarmering.objects.order_by('plaats').annotate(
+                num=Count('id')
+            ).filter(
+                num__gt=0
+            ).exclude(
+                plaats__exact=''
+            ).values('plaats').distinct()
         logger.info(request)
         serializer = PlaatsSerializer(queryset, many=True)
         return Response(serializer.data)
