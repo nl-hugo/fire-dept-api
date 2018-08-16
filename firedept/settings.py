@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls.apps.PollsConfig',
-    'snippets.apps.SnippetsConfig',
     'alarmeringen.apps.AlarmeringenConfig',
     'rest_framework',
     'django_filters',
