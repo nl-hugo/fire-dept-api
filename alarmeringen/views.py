@@ -13,13 +13,16 @@ from alarmeringen.serializers import (AlarmeringSerializer, CapCodeSerializer,
 
 logger = logging.getLogger('firedept')
 
+def get_brandmeldingen(field):
+    return Alarmering.brand.order_by(field).values(field).distinct()
+
 
 class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions. 
     Returns objects in the last 365 days.
     """
-    queryset = Alarmering.objects.filter(
+    queryset = Alarmering.brand.filter(
 #        parent=None,
         datum__gte=datetime.now() - timedelta(days=365))
     serializer_class = AlarmeringSerializer
@@ -31,8 +34,7 @@ class CapCodeViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
-    queryset = CapCode.objects.annotate(num=Count('alarmeringen')).filter(
-        num__gt=0)
+    queryset = CapCode.objects.filter(pk__in=get_brandmeldingen('capcodes'))
     serializer_class = CapCodeSerializer
     pagination_class = None
 
@@ -41,8 +43,7 @@ class DienstViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
-    queryset = Dienst.objects.annotate(num=Count('alarmeringen')).filter(
-        num__gt=0)
+    queryset = Dienst.objects.filter(pk__in=get_brandmeldingen('dienst'))
     serializer_class = DienstSerializer
     pagination_class = None
 
@@ -51,8 +52,7 @@ class RegioViewSet(viewsets.ReadOnlyModelViewSet):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
-    queryset = Regio.objects.annotate(num=Count('alarmeringen')).filter(
-        num__gt=0)
+    queryset = Regio.objects.filter(pk__in=get_brandmeldingen('regio'))
     serializer_class = RegioSerializer
     pagination_class = None
 
@@ -62,7 +62,7 @@ class PlaatsViewSet(viewsets.ViewSet):
     Lists plaatsen.
     """
     def list(self, request):
-        queryset = Alarmering.objects.order_by('plaats').annotate(
+        queryset = Alarmering.brand.order_by('plaats').annotate(
                 num=Count('id')
             ).filter(
                 num__gt=0

@@ -34,6 +34,11 @@ class Regio(models.Model):
         ordering = ['id']
 
 
+class BrandAlarmeringManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(dienst__omschrijving='Brandweer')
+
+
 class Alarmering(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
     melding = models.CharField(max_length=500)
@@ -58,6 +63,9 @@ class Alarmering(models.Model):
     details = models.CharField(max_length=200)
     parent = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, related_name='subitems')
+
+    objects = models.Manager()
+    brand = BrandAlarmeringManager()
 
     def __str__(self):
         return '{}'.format(self.id)
