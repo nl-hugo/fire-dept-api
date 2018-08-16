@@ -44,11 +44,12 @@ class AlarmeringSerializer(serializers.ModelSerializer):
     capcodes = CapCodeSerializer(many=True, read_only=True, )
     regio = RegioSerializer(read_only=True, )
     dienst = DienstSerializer(read_only=True, )
-    subitems = RecursiveField(many=True, read_only=True, )
+#    subitems = RecursiveField(many=True, read_only=True, )
 
     class Meta:
         model = Alarmering
         depth = 1
         fields = ('id', 'datum', 'tijd', 'melding', 'tekstmelding', 'dienst',
                   'prio1', 'grip', 'brandinfo', 'details', 'regio', 'plaats',
-                  'postcode', 'straat', 'lat', 'lon', 'capcodes', 'subitems')
+                  'postcode', 'straat', 'lat', 'lon', 'capcodes', #'subitems'
+                  )

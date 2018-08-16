@@ -20,7 +20,7 @@ class AlarmeringViewSet(viewsets.ReadOnlyModelViewSet):
     Returns objects in the last 365 days.
     """
     queryset = Alarmering.objects.filter(
-        parent=None,
+#        parent=None,
         datum__gte=datetime.now() - timedelta(days=365))
     serializer_class = AlarmeringSerializer
     filter_backends = (DjangoFilterBackend,)
