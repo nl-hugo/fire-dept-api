@@ -50,7 +50,8 @@ def persistAlarmering(melding, parent=None):
     melding.update({'parent': parent})
 
     try:
-        obj, created = Alarmering.objects.get_or_create(**melding)
+        pk = melding.pop('id', '')
+        obj, created = Alarmering.objects.get_or_create(pk=pk, defaults=melding)
         if caps != '':
             obj.capcodes.add(*persistCaps(caps))
         if subs != '':

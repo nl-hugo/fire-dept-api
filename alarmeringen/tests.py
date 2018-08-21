@@ -140,6 +140,25 @@ class PersistAlarmeringenTests(TestCase):
         self.assertEqual(c.parent, p)
         self.assertEqual(c.subitems.count(), 0)
 
+    def test_persist_alarmering_delayed_subitem(self):
+        """
+        Delayed subitems should be persisted correctly
+        """
+        basepath = path.dirname(__file__)
+        filepath = path.abspath(path.join(
+                basepath, 'fixtures', 'response_delayed.json'))
+
+        with open(filepath, 'r') as f:
+            self.delayed = json.load(f)['meldingen']
+
+        persistAlarmeringen(self.alarmeringen)
+        self.assertEqual(Alarmering.objects.count(), 3)
+        with self.assertRaises(Alarmering.DoesNotExist):
+            Alarmering.objects.get(pk='13199999')
+
+        persistAlarmeringen(self.delayed)
+        self.assertEqual(Alarmering.objects.count(), 4)
+        self.assertEqual(Alarmering.objects.get(pk='13199999').capstring, 'delayed subitem')
 
 class DienstViewSetTests(APITestCase):
     fixtures = ['alarmeringen', 'regio', 'dienst']
