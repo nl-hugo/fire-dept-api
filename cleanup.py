@@ -22,17 +22,23 @@ logger.info('Django version {}'.format(django.__version__))
 
 def cleanup(plaatsen):
     from alarmeringen.models import Alarmering
+    capcodes = ['707507','707509','707510','707511','707515','707516']
 
-    n, objs = Alarmering.objects.filter(plaats__in=plaatsen).delete()
+    n, objs = Alarmering.objects.filter(plaats__in=plaatsen).exclude(capcodes__in=capcodes).delete()
     logger.info('Deleted {} alarmeringen'.format(n))
 
 
 def run():
     plaatsen = [
+        'Amersfoort',
         'Baarn',
         'Benschop',
+        'Bilthoven',
+        'Bosch en duin',
+        'De bilt',
         'De kwakel',
         'De meern',
+        'Den dolder',
         'Everdingen',
         'Haarzuilens',
         'Hagestein',
